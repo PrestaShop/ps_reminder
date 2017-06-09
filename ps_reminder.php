@@ -61,7 +61,7 @@ class Ps_Reminder extends Module
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7.2.0', 'max' => _PS_VERSION_);
 
         $secure_key = Configuration::get('PS_FOLLOWUP_SECURE_KEY');
         if (false === $secure_key) {
