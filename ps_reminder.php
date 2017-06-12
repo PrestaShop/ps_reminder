@@ -61,7 +61,7 @@ class Ps_Reminder extends Module
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7.2.0', 'max' => _PS_VERSION_);
 
         $secure_key = Configuration::get('PS_FOLLOWUP_SECURE_KEY');
         if (false === $secure_key) {
@@ -77,8 +77,7 @@ class Ps_Reminder extends Module
             'Modules.Reminder.Admin'
         );
         $this->description = $this->trans(
-            'Follow-up with your customers by sending abandonment cart emails
-		    and other reminders.',
+            'Follow-up with your customers by sending abandonment cart emails and other reminders.',
             array(),
             'Modules.Reminder.Admin'
         );
@@ -746,8 +745,7 @@ class Ps_Reminder extends Module
         $cron_info = '';
         if (Shop::getContext() === Shop::CONTEXT_SHOP) {
             $cron_info = $this->trans(
-                'Define the settings and paste the following URL in the crontab,
-			     or call it manually on a daily basis:',
+                'Define the settings and paste the following URL in the crontab, or call it manually on a daily basis:',
                     array(),
                     'Modules.Reminder.Admin'
                 ).'<br /><b>' . $this->context->shop->getBaseURL() .
@@ -766,8 +764,7 @@ class Ps_Reminder extends Module
                     'icon' => 'icon-cogs',
                 ),
                 'description' => $this->trans(
-                    'Four kinds of e-mail alerts are available in order to stay
-				    in touch with your customers!',
+                    'Four kinds of e-mail alerts are available in order to stay in touch with your customers!',
                         array(),
                         'Modules.Reminder.Admin'
                     ) . '<br />' . $cron_info,
@@ -785,8 +782,7 @@ class Ps_Reminder extends Module
                     'icon' => 'icon-cogs',
                 ),
                 'description' => $this->trans(
-                    'For each cancelled cart (with no order), generate a
-				    discount and send it to the customer.',
+                    'For each cancelled cart (with no order), generate a discount and send it to the customer.',
                     array(),
                     'Modules.Reminder.Admin'
                 ),
@@ -877,8 +873,7 @@ class Ps_Reminder extends Module
                     'icon' => 'icon-cogs',
                 ),
                 'description' => $this->trans(
-                    'For each validated order, generate a discount and send
-				    it to the customer.',
+                    'For each validated order, generate a discount and send it to the customer.',
                     array(),
                     'Modules.Reminder.Admin'
                 ),
@@ -969,8 +964,7 @@ class Ps_Reminder extends Module
                     'icon' => 'icon-cogs',
                 ),
                 'description' => $this->trans(
-                    'For each customer raising a threshold, generate a discount
-				    and send it to the customer.',
+                    'For each customer raising a threshold, generate a discount and send it to the customer.',
                     array(),
                     'Modules.Reminder.Admin'
                 ),
@@ -1071,9 +1065,7 @@ class Ps_Reminder extends Module
                     'icon' => 'icon-cogs',
                 ),
                 'description' => $this->trans(
-                    'For each customer who has already placed at least one order
-				     and with no orders since a given duration, generate a
-				     discount and send it to the customer.',
+                    'For each customer who has already placed at least one order and with no orders since a given duration, generate a discount and send it to the customer.',
                     array(),
                     'Modules.Reminder.Admin'
                 ),
@@ -1182,8 +1174,7 @@ class Ps_Reminder extends Module
                         'type' => 'switch',
                         'is_bool' => true, //retro-compat
                         'label' => $this->trans(
-                            'Delete outdated discounts during each launch to
-						    clean database',
+                            'Delete outdated discounts during each launch to clean database',
                             array(),
                             'Modules.Reminder.Admin'
                         ),
