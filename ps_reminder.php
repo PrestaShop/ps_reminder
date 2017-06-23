@@ -36,7 +36,7 @@ class Ps_Reminder extends Module
     {
         $this->name = 'ps_reminder';
         $this->tab = 'advertising_marketing';
-        $this->version = '1.0.2';
+        $this->version = '2.0.0';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
 
