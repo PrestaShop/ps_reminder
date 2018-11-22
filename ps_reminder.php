@@ -222,20 +222,21 @@ class Ps_Reminder extends Module
                     array(),
                     'Modules.Reminder.Admin')
             );
-            if (false !== $voucher) {
+            // allowing to use 0 discount
+            //if (false !== $voucher) {
                 $template_vars = array(
                     '{email}' => $email['email'],
                     '{lastname}' => $email['lastname'],
                     '{firstname}' => $email['firstname'],
                     '{amount}' => $conf['PS_FOLLOW_UP_AMOUNT_1'],
                     '{days}' => $conf['PS_FOLLOW_UP_DAYS_1'],
-                    '{voucher_num}' => $voucher->code
+                    '{voucher_num}' => $voucher ? $voucher->code : null
                 );
                 Mail::Send(
                     (int)$email['id_lang'],
-                    'followup_1',
+                    $voucher ? 'followup_1' : 'followup_1_0',
                     Mail::l(
-                        'Your cart and your discount',
+                        $voucher ? 'Your cart and your discount' : 'Your cart',
                         (int)$email['id_lang']
                     ),
                     $template_vars,
@@ -253,7 +254,7 @@ class Ps_Reminder extends Module
                     (int)$email['id_customer'],
                     (int)$email['id_cart']
                 );
-            }
+            //}
         }
     }
 
@@ -597,6 +598,10 @@ class Ps_Reminder extends Module
         $date_validity,
         $description
     ) {
+        if ($amount <= 0) {
+            return false;
+        }
+
         $cart_rule = new CartRule();
         $cart_rule->reduction_percent = (float)$amount;
         $cart_rule->id_customer = (int)$id_customer;
@@ -749,7 +754,7 @@ class Ps_Reminder extends Module
                     array(),
                     'Modules.Reminder.Admin'
                 ).'<br /><b>' . $this->context->shop->getBaseURL() .
-                'modules/followup/cron.php?secure_key=' .
+                'modules/ps_reminder/cron.php?secure_key=' .
                 Configuration::get('PS_FOLLOWUP_SECURE_KEY') . '</b></p>';
         }
 
@@ -782,7 +787,7 @@ class Ps_Reminder extends Module
                     'icon' => 'icon-cogs',
                 ),
                 'description' => $this->trans(
-                    'For each cancelled cart (with no order), generate a discount and send it to the customer.',
+                    'For each cancelled cart (with no order), generate a discount and send it to the customer.  Use 0% to disable discount and just send a reminder email.',
                     array(),
                     'Modules.Reminder.Admin'
                 ),
