@@ -489,7 +489,6 @@ class Ps_Reminder extends Module
      *
      * @param boolean $count if set to true, will return number of customer (default : false, will send mails, no return value)
      *
-     * @return void
      */
     private function badCustomer($count = false)
     {
