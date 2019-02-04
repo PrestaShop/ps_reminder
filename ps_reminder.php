@@ -193,7 +193,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND c.id_cart NOT IN ('.join(',', $email_logs).')';
+            $sql .= ' AND c.id_cart NOT IN ('.implode(',', $email_logs).')';
         }
 
         $sql .= ' GROUP BY cu.id_customer';
@@ -326,7 +326,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'o');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND o.id_cart NOT IN ('.join(',', $email_logs).')';
+            $sql .= ' AND o.id_cart NOT IN ('.implode(',', $email_logs).')';
         }
 
         $emails = Db::getInstance()->executeS($sql);
@@ -415,7 +415,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'o');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND cu.id_customer NOT IN ('.join(',', $email_logs).') ';
+            $sql .= ' AND cu.id_customer NOT IN ('.implode(',', $email_logs).') ';
         }
 
         $sql .= 'GROUP BY o.id_customer HAVING total >= ' .
@@ -522,7 +522,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'cu');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND cu.id_customer NOT IN ('.join(',', $email_logs).') ';
+            $sql .= ' AND cu.id_customer NOT IN ('.implode(',', $email_logs).') ';
         }
 
         $sql .= ' GROUP BY cu.id_customer HAVING nb_orders >= 1';
