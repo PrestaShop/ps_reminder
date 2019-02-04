@@ -126,7 +126,7 @@ class Ps_Reminder extends Module
                 if (Tools::getValue($c) !== false) {
                     $ok &= Configuration::updateValue(
                         $c,
-                        (float)Tools::getValue($c)
+                        (float) Tools::getValue($c)
                     );
                 }
             }
@@ -157,15 +157,15 @@ class Ps_Reminder extends Module
         $id_cart = null
     ) {
         $values = array(
-            'id_email_type' => (int)$id_email_type,
-            'id_cart_rule' => (int)$id_cart_rule,
+            'id_email_type' => (int) $id_email_type,
+            'id_cart_rule' => (int) $id_cart_rule,
             'date_add' => date('Y-m-d H:i:s')
         );
         if (!empty($id_cart)) {
-            $values['id_cart'] = (int)$id_cart;
+            $values['id_cart'] = (int) $id_cart;
         }
         if (!empty($id_customer)) {
-            $values['id_customer'] = (int)$id_customer;
+            $values['id_customer'] = (int) $id_customer;
         }
         Db::getInstance()->insert('log_email', $values);
     }
@@ -211,11 +211,11 @@ class Ps_Reminder extends Module
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 1,
-                (float)$conf['PS_FOLLOW_UP_AMOUNT_1'],
-                (int)$email['id_customer'],
+                (float) $conf['PS_FOLLOW_UP_AMOUNT_1'],
+                (int) $email['id_customer'],
                 strftime(
                     '%Y-%m-%d',
-                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_1'].' day')
+                    strtotime('+' . (int) $conf['PS_FOLLOW_UP_DAYS_1'].' day')
                 ),
                 $this->trans(
                     'Discount for your cancelled cart',
@@ -232,11 +232,11 @@ class Ps_Reminder extends Module
                     '{voucher_num}' => $voucher->code
                 );
                 Mail::Send(
-                    (int)$email['id_lang'],
+                    (int) $email['id_lang'],
                     'followup_1',
                     Mail::l(
                         'Your cart and your discount',
-                        (int)$email['id_lang']
+                        (int) $email['id_lang']
                     ),
                     $template_vars,
                     $email['email'],
@@ -249,9 +249,9 @@ class Ps_Reminder extends Module
                 );
                 $this->logEmail(
                     1,
-                    (int)$voucher->id,
-                    (int)$email['id_customer'],
-                    (int)$email['id_cart']
+                    (int) $voucher->id,
+                    (int) $email['id_customer'],
+                    (int) $email['id_cart']
                 );
             }
         }
@@ -275,7 +275,7 @@ class Ps_Reminder extends Module
             FROM '._DB_PREFIX_.'log_email
 			WHERE id_email_type <> 4
 			OR date_add >= DATE_SUB(date_add, INTERVAL ' .
-                (int)Configuration::get(
+                (int) Configuration::get(
                     'PS_FOLLOW_UP_DAYS_THRESHOLD_4'
                 ).' DAY)';
             $results = Db::getInstance()->executeS($query);
@@ -342,11 +342,11 @@ class Ps_Reminder extends Module
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 2,
-                (float)$conf['PS_FOLLOW_UP_AMOUNT_2'],
-                (int)$email['id_customer'],
+                (float) $conf['PS_FOLLOW_UP_AMOUNT_2'],
+                (int) $email['id_customer'],
                 strftime(
                     '%Y-%m-%d',
-                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_2'].' day')
+                    strtotime('+' . (int) $conf['PS_FOLLOW_UP_DAYS_2'].' day')
                 ),
                 $this->trans(
                     'Thank you for your order.',
@@ -364,11 +364,11 @@ class Ps_Reminder extends Module
                     '{voucher_num}' => $voucher->code
                 );
                 Mail::Send(
-                    (int)$email['id_lang'],
+                    (int) $email['id_lang'],
                     'followup_2',
                     Mail::l(
                         'Thanks for your order',
-                        (int)$email['id_lang']
+                        (int) $email['id_lang']
                     ),
                     $template_vars,
                     $email['email'],
@@ -381,9 +381,9 @@ class Ps_Reminder extends Module
                 );
                 $this->logEmail(
                     2,
-                    (int)$voucher->id,
-                    (int)$email['id_customer'],
-                    (int)$email['id_cart']
+                    (int) $voucher->id,
+                    (int) $email['id_customer'],
+                    (int) $email['id_cart']
                 );
             }
         }
@@ -419,7 +419,7 @@ class Ps_Reminder extends Module
         }
 
         $sql .= 'GROUP BY o.id_customer HAVING total >= ' .
-            (float)Configuration::get('PS_FOLLOW_UP_THRESHOLD_3');
+            (float) Configuration::get('PS_FOLLOW_UP_THRESHOLD_3');
 
         $emails = Db::getInstance()->executeS($sql);
 
@@ -434,11 +434,11 @@ class Ps_Reminder extends Module
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 3,
-                (float)$conf['PS_FOLLOW_UP_AMOUNT_3'],
-                (int)$email['id_customer'],
+                (float) $conf['PS_FOLLOW_UP_AMOUNT_3'],
+                (int) $email['id_customer'],
                 strftime(
                     '%Y-%m-%d',
-                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_3'] . ' day')
+                    strtotime('+' . (int) $conf['PS_FOLLOW_UP_DAYS_3'] . ' day')
                 ),
                 $this->trans(
                     'You are one of our best customers!',
@@ -456,11 +456,11 @@ class Ps_Reminder extends Module
                     '{voucher_num}' => $voucher->code
                 );
                 Mail::Send(
-                    (int)$email['id_lang'],
+                    (int) $email['id_lang'],
                     'followup_3',
                     Mail::l(
                         'You are one of our best customers',
-                        (int)$email['id_lang']
+                        (int) $email['id_lang']
                     ),
                     $template_vars,
                     $email['email'],
@@ -473,9 +473,9 @@ class Ps_Reminder extends Module
                 );
                 $this->logEmail(
                     3,
-                    (int)$voucher->id,
-                    (int)$email['id_customer'],
-                    (int)$email['id_cart']
+                    (int) $voucher->id,
+                    (int) $email['id_customer'],
+                    (int) $email['id_cart']
                 );
             }
         }
@@ -515,7 +515,7 @@ class Ps_Reminder extends Module
             NOT IN (SELECT o.id_customer
                     FROM '._DB_PREFIX_.'orders o
                     WHERE DATE_SUB(CURDATE(),INTERVAL ' .
-                    (int)Configuration::get('PS_FOLLOW_UP_DAYS_THRESHOLD_4') .
+                    (int) Configuration::get('PS_FOLLOW_UP_DAYS_THRESHOLD_4') .
                     ' DAY) <= o.date_add)
             AND cu.is_guest = 0 ';
 
@@ -540,11 +540,11 @@ class Ps_Reminder extends Module
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 4,
-                (float)$conf['PS_FOLLOW_UP_AMOUNT_4'],
-                (int)$email['id_customer'],
+                (float) $conf['PS_FOLLOW_UP_AMOUNT_4'],
+                (int) $email['id_customer'],
                 strftime(
                     '%Y-%m-%d',
-                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_4'] . ' day')
+                    strtotime('+' . (int) $conf['PS_FOLLOW_UP_DAYS_4'] . ' day')
                 ),
                 $this->trans(
                     'We miss you!',
@@ -559,17 +559,17 @@ class Ps_Reminder extends Module
                     '{firstname}' => $email['firstname'],
                     '{amount}' => $conf['PS_FOLLOW_UP_AMOUNT_4'],
                     '{days}' => $conf['PS_FOLLOW_UP_DAYS_4'],
-                    '{days_threshold}' => (int)Configuration::get(
+                    '{days_threshold}' => (int) Configuration::get(
                         'PS_FOLLOW_UP_DAYS_THRESHOLD_4'
                     ),
                     '{voucher_num}' => $voucher->code,
                 );
                 Mail::Send(
-                    (int)$email['id_lang'],
+                    (int) $email['id_lang'],
                     'followup_4',
                     Mail::l(
                         'We miss you',
-                        (int)$email['id_lang']
+                        (int) $email['id_lang']
                     ),
                     $template_vars,
                     $email['email'],
@@ -582,9 +582,9 @@ class Ps_Reminder extends Module
                 );
                 $this->logEmail(
                     4,
-                    (int)$voucher->id,
-                    (int)$email['id_customer'],
-                    (int)$email['id_cart']
+                    (int) $voucher->id,
+                    (int) $email['id_customer'],
+                    (int) $email['id_cart']
                 );
             }
         }
@@ -598,8 +598,8 @@ class Ps_Reminder extends Module
         $description
     ) {
         $cart_rule = new CartRule();
-        $cart_rule->reduction_percent = (float)$amount;
-        $cart_rule->id_customer = (int)$id_customer;
+        $cart_rule->reduction_percent = (float) $amount;
+        $cart_rule->id_customer = (int) $id_customer;
         $cart_rule->date_to = $date_validity;
         $cart_rule->date_from = date('Y-m-d H:i:s');
         $cart_rule->quantity = 1;
@@ -609,10 +609,10 @@ class Ps_Reminder extends Module
 
         $languages = Language::getLanguages(true);
         foreach ($languages as $language) {
-            $cart_rule->name[(int)$language['id_lang']] = $description;
+            $cart_rule->name[(int) $language['id_lang']] = $description;
         }
 
-        $code = 'FLW-' . (int)$id_email_type . '-' . Tools::strtoupper(
+        $code = 'FLW-' . (int) $id_email_type . '-' . Tools::strtoupper(
                 Tools::passwdGen(10)
             );
         $cart_rule->code = $code;
@@ -657,7 +657,7 @@ class Ps_Reminder extends Module
                  AND code LIKE "FLW-%"');
             foreach ($outdated_discounts as $outdated_discount) {
                 $cart_rule = new CartRule(
-                    (int)$outdated_discount['id_cart_rule']
+                    (int) $outdated_discount['id_cart_rule']
                 );
                 if (Validate::isLoadedObject($cart_rule)) {
                     $cart_rule->delete();
@@ -690,8 +690,8 @@ class Ps_Reminder extends Module
 
         $stats_array = array();
         foreach ($stats as $stat) {
-            $stats_array[$stat['date_stat']][$stat['id_email_type']]['nb'] = (int)$stat['nb'];
-            $stats_array[$stat['date_stat']][$stat['id_email_type']]['nb_used'] = (int)$stat['nb_used'];
+            $stats_array[$stat['date_stat']][$stat['id_email_type']]['nb'] = (int) $stat['nb'];
+            $stats_array[$stat['date_stat']][$stat['id_email_type']]['nb_used'] = (int) $stat['nb_used'];
         }
 
         foreach ($stats_array as $date_stat => $array) {
@@ -712,11 +712,11 @@ class Ps_Reminder extends Module
             for ($i = 1; $i != 5; $i++) {
                 $stats_array[$date_stat][$i]['nb'] =
                     isset($stats_array[$date_stat][$i]['nb']) ?
-                        (int)$stats_array[$date_stat][$i]['nb'] :
+                        (int) $stats_array[$date_stat][$i]['nb'] :
                         0;
                 $stats_array[$date_stat][$i]['nb_used'] =
                     isset($stats_array[$date_stat][$i]['nb_used']) ?
-                        (int)$stats_array[$date_stat][$i]['nb_used'] :
+                        (int) $stats_array[$date_stat][$i]['nb_used'] :
                         0;
                 $stats_array[$date_stat][$i]['rate'] =
                     isset($rates[$i]) ?
@@ -734,7 +734,7 @@ class Ps_Reminder extends Module
     public function renderForm()
     {
         $currency = new Currency(
-            (int)Configuration::get('PS_CURRENCY_DEFAULT')
+            (int) Configuration::get('PS_CURRENCY_DEFAULT')
         );
 
         $n1 = $this->cancelledCart(true);
@@ -1215,7 +1215,7 @@ class Ps_Reminder extends Module
         $helper = new HelperForm();
         $helper->show_toolbar = false;
         $helper->table = $this->table;
-        $lang = new Language((int)Configuration::get('PS_LANG_DEFAULT'));
+        $lang = new Language((int) Configuration::get('PS_LANG_DEFAULT'));
         $helper->default_form_language = $lang->id;
         $helper->allow_employee_form_lang =
             Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') ?
