@@ -24,8 +24,8 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
-include(dirname(__FILE__) . '/../../config/config.inc.php');
-include(dirname(__FILE__) . '/ps_reminder.php');
+include dirname(__FILE__) . '/../../config/config.inc.php';
+include dirname(__FILE__) . '/ps_reminder.php';
 
 if (Tools::getIsset('secure_key')) {
     $secure_key = Configuration::get('PS_FOLLOWUP_SECURE_KEY');
