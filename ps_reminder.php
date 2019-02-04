@@ -1252,10 +1252,10 @@ class Ps_Reminder extends Module
     {
         return array(
             'PS_FOLLOW_UP_ENABLE_1' =>
-                Tools::getValue(
-                    'PS_FOLLOW_UP_ENABLE_1',
-                    Configuration::get('PS_FOLLOW_UP_ENABLE_1')
-                ),
+            Tools::getValue(
+                'PS_FOLLOW_UP_ENABLE_1',
+                Configuration::get('PS_FOLLOW_UP_ENABLE_1')
+            ),
             'PS_FOLLOW_UP_DAYS_1' => Tools::getValue(
                 'PS_FOLLOW_UP_DAYS_1',
                 Configuration::get('PS_FOLLOW_UP_DAYS_1')
