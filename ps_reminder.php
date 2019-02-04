@@ -488,7 +488,6 @@ class Ps_Reminder extends Module
      * with at least one valid order in history.
      *
      * @param bool $count if set to true, will return number of customer (default : false, will send mails, no return value)
-     *
      */
     private function badCustomer($count = false)
     {
