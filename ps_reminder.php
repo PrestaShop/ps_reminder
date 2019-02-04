@@ -1251,8 +1251,7 @@ class Ps_Reminder extends Module
     public function getConfigFieldsValues()
     {
         return array(
-            'PS_FOLLOW_UP_ENABLE_1' =>
-            Tools::getValue(
+            'PS_FOLLOW_UP_ENABLE_1' => Tools::getValue(
                 'PS_FOLLOW_UP_ENABLE_1',
                 Configuration::get('PS_FOLLOW_UP_ENABLE_1')
             ),
