@@ -101,7 +101,6 @@ class Ps_Reminder extends Module
             Configuration::updateValue($key, 0);
         }
 
-
         return parent::install();
     }
 
