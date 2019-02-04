@@ -245,7 +245,7 @@ class Ps_Reminder extends Module
                     null,
                     null,
                     null,
-                    dirname(__FILE__).'/mails/'
+                    __DIR__.'/mails/'
                 );
                 $this->logEmail(
                     1,
@@ -377,7 +377,7 @@ class Ps_Reminder extends Module
                     null,
                     null,
                     null,
-                    dirname(__FILE__).'/mails/'
+                    __DIR__.'/mails/'
                 );
                 $this->logEmail(
                     2,
@@ -469,7 +469,7 @@ class Ps_Reminder extends Module
                     null,
                     null,
                     null,
-                    dirname(__FILE__) . '/mails/'
+                    __DIR__ . '/mails/'
                 );
                 $this->logEmail(
                     3,
@@ -578,7 +578,7 @@ class Ps_Reminder extends Module
                     null,
                     null,
                     null,
-                    dirname(__FILE__) . '/mails/'
+                    __DIR__ . '/mails/'
                 );
                 $this->logEmail(
                     4,
