@@ -86,7 +86,7 @@ class Ps_Reminder extends Module
     public function install()
     {
         Db::getInstance()->execute('
-		CREATE TABLE '._DB_PREFIX_.'log_email (
+		CREATE TABLE ' . _DB_PREFIX_ . 'log_email (
 		`id_log_email` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 		`id_email_type` INT UNSIGNED NOT NULL ,
 		`id_cart_rule` INT UNSIGNED NOT NULL ,
@@ -95,7 +95,7 @@ class Ps_Reminder extends Module
 		`date_add` DATETIME NOT NULL,
 		 INDEX `date_add`(`date_add`),
 		 INDEX `id_cart`(`id_cart`)
-		) ENGINE='._MYSQL_ENGINE_);
+		) ENGINE=' . _MYSQL_ENGINE_);
 
         foreach ($this->conf_keys as $key) {
             Configuration::updateValue($key, 0);
@@ -112,7 +112,7 @@ class Ps_Reminder extends Module
         }
 
         Configuration::deleteByName('PS_FOLLOWUP_SECURE_KEY');
-        Db::getInstance()->execute('DROP TABLE '._DB_PREFIX_.'log_email');
+        Db::getInstance()->execute('DROP TABLE ' . _DB_PREFIX_ . 'log_email');
 
         return parent::uninstall();
     }
@@ -182,10 +182,10 @@ class Ps_Reminder extends Module
 		       cu.firstname,
 		       cu.lastname,
 		       cu.email
-		FROM '._DB_PREFIX_.'cart c
-		LEFT JOIN '._DB_PREFIX_.'orders o
+		FROM ' . _DB_PREFIX_ . 'cart c
+		LEFT JOIN ' . _DB_PREFIX_ . 'orders o
 		ON (o.id_cart = c.id_cart)
-		RIGHT JOIN '._DB_PREFIX_.'customer cu
+		RIGHT JOIN ' . _DB_PREFIX_ . 'customer cu
 		ON (cu.id_customer = c.id_customer)
 		WHERE DATE_SUB(CURDATE(),INTERVAL 7 DAY) <= c.date_add
 		AND o.id_order IS NULL';
@@ -193,7 +193,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND c.id_cart NOT IN ('.join(',', $email_logs).')';
+            $sql .= ' AND c.id_cart NOT IN (' . join(',', $email_logs) . ')';
         }
 
         $sql .= ' GROUP BY cu.id_customer';
@@ -215,7 +215,7 @@ class Ps_Reminder extends Module
                 (int)$email['id_customer'],
                 strftime(
                     '%Y-%m-%d',
-                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_1'].' day')
+                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_1'] . ' day')
                 ),
                 $this->trans(
                     'Discount for your cancelled cart',
@@ -245,7 +245,7 @@ class Ps_Reminder extends Module
                     null,
                     null,
                     null,
-                    dirname(__FILE__).'/mails/'
+                    dirname(__FILE__) . '/mails/'
                 );
                 $this->logEmail(
                     1,
@@ -272,12 +272,12 @@ class Ps_Reminder extends Module
 			SELECT id_cart,
 			       id_customer,
 			       id_email_type
-            FROM '._DB_PREFIX_.'log_email
+            FROM ' . _DB_PREFIX_ . 'log_email
 			WHERE id_email_type <> 4
 			OR date_add >= DATE_SUB(date_add, INTERVAL ' .
                 (int)Configuration::get(
                     'PS_FOLLOW_UP_DAYS_THRESHOLD_4'
-                ).' DAY)';
+                ) . ' DAY)';
             $results = Db::getInstance()->executeS($query);
             foreach ($results as $line) {
                 switch ($line['id_email_type']) {
@@ -314,10 +314,10 @@ class Ps_Reminder extends Module
 		       cu.firstname,
 		       cu.lastname,
 		       cu.email
-		FROM '._DB_PREFIX_.'orders o
-		LEFT JOIN '._DB_PREFIX_.'customer cu
+		FROM ' . _DB_PREFIX_ . 'orders o
+		LEFT JOIN ' . _DB_PREFIX_ . 'customer cu
 		ON (cu.id_customer = o.id_customer)
-		LEFT JOIN '._DB_PREFIX_.'cart c
+		LEFT JOIN ' . _DB_PREFIX_ . 'cart c
 		ON (c.id_cart = o.id_cart)
 		WHERE o.valid = 1
 		AND c.date_add >= DATE_SUB(CURDATE(),INTERVAL 7 DAY)
@@ -326,7 +326,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'o');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND o.id_cart NOT IN ('.join(',', $email_logs).')';
+            $sql .= ' AND o.id_cart NOT IN (' . join(',', $email_logs) . ')';
         }
 
         $emails = Db::getInstance()->executeS($sql);
@@ -346,7 +346,7 @@ class Ps_Reminder extends Module
                 (int)$email['id_customer'],
                 strftime(
                     '%Y-%m-%d',
-                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_2'].' day')
+                    strtotime('+' . (int)$conf['PS_FOLLOW_UP_DAYS_2'] . ' day')
                 ),
                 $this->trans(
                     'Thank you for your order.',
@@ -377,7 +377,7 @@ class Ps_Reminder extends Module
                     null,
                     null,
                     null,
-                    dirname(__FILE__).'/mails/'
+                    dirname(__FILE__) . '/mails/'
                 );
                 $this->logEmail(
                     2,
@@ -403,10 +403,10 @@ class Ps_Reminder extends Module
 		       cu.firstname,
 		       cu.lastname,
 		       cu.email
-		FROM '._DB_PREFIX_.'orders o
-		LEFT JOIN '._DB_PREFIX_.'customer cu
+		FROM ' . _DB_PREFIX_ . 'orders o
+		LEFT JOIN ' . _DB_PREFIX_ . 'customer cu
 		ON (cu.id_customer = o.id_customer)
-		LEFT JOIN '._DB_PREFIX_.'cart c
+		LEFT JOIN ' . _DB_PREFIX_ . 'cart c
 		ON (c.id_cart = o.id_cart)
         WHERE o.valid = 1
         AND DATE_SUB(CURDATE(),INTERVAL 90 DAY) <= o.date_add
@@ -415,7 +415,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'o');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND cu.id_customer NOT IN ('.join(',', $email_logs).') ';
+            $sql .= ' AND cu.id_customer NOT IN (' . join(',', $email_logs) . ') ';
         }
 
         $sql .= 'GROUP BY o.id_customer HAVING total >= ' .
@@ -503,17 +503,17 @@ class Ps_Reminder extends Module
 			       cu.lastname,
 			       cu.email,
 			       (SELECT COUNT(o.id_order)
-			       FROM '._DB_PREFIX_.'orders o
+			       FROM ' . _DB_PREFIX_ . 'orders o
 			       WHERE o.id_customer = cu.id_customer
 			       AND o.valid = 1) nb_orders
-			FROM '._DB_PREFIX_.'customer cu
-			LEFT JOIN '._DB_PREFIX_.'orders o
+			FROM ' . _DB_PREFIX_ . 'customer cu
+			LEFT JOIN ' . _DB_PREFIX_ . 'orders o
 			ON (o.id_customer = cu.id_customer)
-			LEFT JOIN '._DB_PREFIX_.'cart c
+			LEFT JOIN ' . _DB_PREFIX_ . 'cart c
 			ON (c.id_cart = o.id_cart)
             WHERE cu.id_customer
             NOT IN (SELECT o.id_customer
-                    FROM '._DB_PREFIX_.'orders o
+                    FROM ' . _DB_PREFIX_ . 'orders o
                     WHERE DATE_SUB(CURDATE(),INTERVAL ' .
                     (int)Configuration::get('PS_FOLLOW_UP_DAYS_THRESHOLD_4') .
                     ' DAY) <= o.date_add)
@@ -522,7 +522,7 @@ class Ps_Reminder extends Module
         $sql .= Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'cu');
 
         if (!empty($email_logs)) {
-            $sql .= ' AND cu.id_customer NOT IN ('.join(',', $email_logs).') ';
+            $sql .= ' AND cu.id_customer NOT IN (' . join(',', $email_logs) . ') ';
         }
 
         $sql .= ' GROUP BY cu.id_customer HAVING nb_orders >= 1';
@@ -652,7 +652,7 @@ class Ps_Reminder extends Module
         if (1 == $conf['PS_FOLLOW_UP_CLEAN_DB']) {
             $outdated_discounts = Db::getInstance()->executeS(
                 'SELECT id_cart_rule
-                 FROM '._DB_PREFIX_.'cart_rule
+                 FROM ' . _DB_PREFIX_ . 'cart_rule
                  WHERE date_to < NOW()
                  AND code LIKE "FLW-%"');
             foreach ($outdated_discounts as $outdated_discount) {
@@ -669,10 +669,10 @@ class Ps_Reminder extends Module
     public function renderStats()
     {
         $subQuery = 'SELECT COUNT(l2.id_cart_rule)
-                   FROM '._DB_PREFIX_.'log_email l2
-                   LEFT JOIN '._DB_PREFIX_.'order_cart_rule ocr
+                   FROM ' . _DB_PREFIX_ . 'log_email l2
+                   LEFT JOIN ' . _DB_PREFIX_ . 'order_cart_rule ocr
                    ON (ocr.id_cart_rule = l2.id_cart_rule)
-                   LEFT JOIN '._DB_PREFIX_.'orders o ON (o.id_order = ocr.id_order)
+                   LEFT JOIN ' . _DB_PREFIX_ . 'orders o ON (o.id_order = ocr.id_order)
                    WHERE l2.id_email_type = l.id_email_type
                    AND date(l2.date_add) = date(l.date_add)
                    AND ocr.id_order IS NOT NULL
@@ -682,7 +682,7 @@ class Ps_Reminder extends Module
 			       l.id_email_type,
 			       COUNT(l.id_log_email) nb,
                    (' . $subQuery . ') nb_used
-			FROM '._DB_PREFIX_.'log_email l
+			FROM ' . _DB_PREFIX_ . 'log_email l
 			WHERE l.date_add >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
 			GROUP BY DATE_FORMAT(l.date_add, \'%Y-%m-%d\'), l.id_email_type';
 
@@ -720,7 +720,7 @@ class Ps_Reminder extends Module
                         0;
                 $stats_array[$date_stat][$i]['rate'] =
                     isset($rates[$i]) ?
-                        '<b>'.$rates[$i].'</b>' :
+                        '<b>' . $rates[$i] . '</b>' :
                         '0.00';
             }
             ksort($stats_array[$date_stat]);
@@ -748,7 +748,7 @@ class Ps_Reminder extends Module
                 'Define the settings and paste the following URL in the crontab, or call it manually on a daily basis:',
                     array(),
                     'Modules.Reminder.Admin'
-                ).'<br /><b>' . $this->context->shop->getBaseURL() .
+                ) . '<br /><b>' . $this->context->shop->getBaseURL() .
                 'modules/followup/cron.php?secure_key=' .
                 Configuration::get('PS_FOLLOWUP_SECURE_KEY') . '</b></p>';
         }
