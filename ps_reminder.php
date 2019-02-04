@@ -30,7 +30,7 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_Reminder extends Module
 {
-    private $conf_keys = array();
+    private $conf_keys = [];
 
     public function __construct()
     {
@@ -40,7 +40,7 @@ class Ps_Reminder extends Module
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
 
-        $this->conf_keys = array(
+        $this->conf_keys = [
             'PS_FOLLOW_UP_ENABLE_1',
             'PS_FOLLOW_UP_ENABLE_2',
             'PS_FOLLOW_UP_ENABLE_3',
@@ -56,12 +56,12 @@ class Ps_Reminder extends Module
             'PS_FOLLOW_UP_THRESHOLD_3',
             'PS_FOLLOW_UP_DAYS_THRESHOLD_4',
             'PS_FOLLOW_UP_CLEAN_DB'
-        );
+        ];
 
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->ps_versions_compliancy = array('min' => '1.7.2.0', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = ['min' => '1.7.2.0', 'max' => _PS_VERSION_];
 
         $secure_key = Configuration::get('PS_FOLLOWUP_SECURE_KEY');
         if (false === $secure_key) {
@@ -73,12 +73,12 @@ class Ps_Reminder extends Module
 
         $this->displayName = $this->trans(
             'Customer follow-up',
-            array(),
+            [],
             'Modules.Reminder.Admin'
         );
         $this->description = $this->trans(
             'Follow-up with your customers by sending abandonment cart emails and other reminders.',
-            array(),
+            [],
             'Modules.Reminder.Admin'
         );
     }
@@ -133,13 +133,13 @@ class Ps_Reminder extends Module
             if ($ok) {
                 $html .= $this->displayConfirmation($this->trans(
                     'Settings updated succesfully',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 ));
             } else {
                 $html .= $this->displayError($this->trans(
                     'Error occurred during settings update',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 ));
             }
@@ -156,11 +156,11 @@ class Ps_Reminder extends Module
         $id_customer = null,
         $id_cart = null
     ) {
-        $values = array(
+        $values = [
             'id_email_type' => (int)$id_email_type,
             'id_cart_rule' => (int)$id_cart_rule,
             'date_add' => date('Y-m-d H:i:s')
-        );
+        ];
         if (!empty($id_cart)) {
             $values['id_cart'] = (int)$id_cart;
         }
@@ -204,10 +204,10 @@ class Ps_Reminder extends Module
             return count($emails);
         }
 
-        $conf = Configuration::getMultiple(array(
+        $conf = Configuration::getMultiple([
             'PS_FOLLOW_UP_AMOUNT_1',
             'PS_FOLLOW_UP_DAYS_1'
-        ));
+        ]);
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 1,
@@ -219,18 +219,18 @@ class Ps_Reminder extends Module
                 ),
                 $this->trans(
                     'Discount for your cancelled cart',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin')
             );
             if (false !== $voucher) {
-                $template_vars = array(
+                $template_vars = [
                     '{email}' => $email['email'],
                     '{lastname}' => $email['lastname'],
                     '{firstname}' => $email['firstname'],
                     '{amount}' => $conf['PS_FOLLOW_UP_AMOUNT_1'],
                     '{days}' => $conf['PS_FOLLOW_UP_DAYS_1'],
                     '{voucher_num}' => $voucher->code
-                );
+                ];
                 Mail::Send(
                     (int)$email['id_lang'],
                     'followup_1',
@@ -259,12 +259,12 @@ class Ps_Reminder extends Module
 
     private function getLogsEmail($email_type)
     {
-        static $id_list = array(
-            '1' => array(),
-            '2' => array(),
-            '3' => array(),
-            '4' => array(),
-        );
+        static $id_list = [
+            '1' => [],
+            '2' => [],
+            '3' => [],
+            '4' => [],
+        ];
         static $executed = false;
 
         if (!$executed) {
@@ -335,10 +335,10 @@ class Ps_Reminder extends Module
             return count($emails);
         }
 
-        $conf = Configuration::getMultiple(array(
+        $conf = Configuration::getMultiple([
             'PS_FOLLOW_UP_AMOUNT_2',
             'PS_FOLLOW_UP_DAYS_2'
-        ));
+        ]);
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 2,
@@ -350,19 +350,19 @@ class Ps_Reminder extends Module
                 ),
                 $this->trans(
                     'Thank you for your order.',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 )
             );
             if (false !== $voucher) {
-                $template_vars = array(
+                $template_vars = [
                     '{email}' => $email['email'],
                     '{lastname}' => $email['lastname'],
                     '{firstname}' => $email['firstname'],
                     '{amount}' => $conf['PS_FOLLOW_UP_AMOUNT_2'],
                     '{days}' => $conf['PS_FOLLOW_UP_DAYS_2'],
                     '{voucher_num}' => $voucher->code
-                );
+                ];
                 Mail::Send(
                     (int)$email['id_lang'],
                     'followup_2',
@@ -427,10 +427,10 @@ class Ps_Reminder extends Module
             return count($emails);
         }
 
-        $conf = Configuration::getMultiple(array(
+        $conf = Configuration::getMultiple([
             'PS_FOLLOW_UP_AMOUNT_3',
             'PS_FOLLOW_UP_DAYS_3'
-        ));
+        ]);
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 3,
@@ -442,19 +442,19 @@ class Ps_Reminder extends Module
                 ),
                 $this->trans(
                     'You are one of our best customers!',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 )
             );
             if (false !== $voucher) {
-                $template_vars = array(
+                $template_vars = [
                     '{email}' => $email['email'],
                     '{lastname}' => $email['lastname'],
                     '{firstname}' => $email['firstname'],
                     '{amount}' => $conf['PS_FOLLOW_UP_AMOUNT_3'],
                     '{days}' => $conf['PS_FOLLOW_UP_DAYS_3'],
                     '{voucher_num}' => $voucher->code
-                );
+                ];
                 Mail::Send(
                     (int)$email['id_lang'],
                     'followup_3',
@@ -533,10 +533,10 @@ class Ps_Reminder extends Module
             return count($emails);
         }
 
-        $conf = Configuration::getMultiple(array(
+        $conf = Configuration::getMultiple([
             'PS_FOLLOW_UP_AMOUNT_4',
             'PS_FOLLOW_UP_DAYS_4'
-        ));
+        ]);
         foreach ($emails as $email) {
             $voucher = $this->createDiscount(
                 4,
@@ -548,12 +548,12 @@ class Ps_Reminder extends Module
                 ),
                 $this->trans(
                     'We miss you!',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 )
             );
             if (false !== $voucher) {
-                $template_vars = array(
+                $template_vars = [
                     '{email}' => $email['email'],
                     '{lastname}' => $email['lastname'],
                     '{firstname}' => $email['firstname'],
@@ -563,7 +563,7 @@ class Ps_Reminder extends Module
                         'PS_FOLLOW_UP_DAYS_THRESHOLD_4'
                     ),
                     '{voucher_num}' => $voucher->code,
-                );
+                ];
                 Mail::Send(
                     (int)$email['id_lang'],
                     'followup_4',
@@ -627,13 +627,13 @@ class Ps_Reminder extends Module
     public function cronTask()
     {
         Context::getContext()->link = new Link(); //when this is call by cron context is not init
-        $conf = Configuration::getMultiple(array(
+        $conf = Configuration::getMultiple([
             'PS_FOLLOW_UP_ENABLE_1',
             'PS_FOLLOW_UP_ENABLE_2',
             'PS_FOLLOW_UP_ENABLE_3',
             'PS_FOLLOW_UP_ENABLE_4',
             'PS_FOLLOW_UP_CLEAN_DB'
-        ));
+        ]);
 
         if ($conf['PS_FOLLOW_UP_ENABLE_1']) {
             $this->cancelledCart();
@@ -688,14 +688,14 @@ class Ps_Reminder extends Module
 
         $stats = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($query);
 
-        $stats_array = array();
+        $stats_array = [];
         foreach ($stats as $stat) {
             $stats_array[$stat['date_stat']][$stat['id_email_type']]['nb'] = (int)$stat['nb'];
             $stats_array[$stat['date_stat']][$stat['id_email_type']]['nb_used'] = (int)$stat['nb_used'];
         }
 
         foreach ($stats_array as $date_stat => $array) {
-            $rates = array();
+            $rates = [];
             for ($i = 1; $i != 5; $i++) {
                 if (isset($stats_array[$date_stat][$i]['nb'])
                     && isset($stats_array[$date_stat][$i]['nb_used'])
@@ -726,7 +726,7 @@ class Ps_Reminder extends Module
             ksort($stats_array[$date_stat]);
         }
 
-        $this->context->smarty->assign(array('stats_array' => $stats_array));
+        $this->context->smarty->assign(['stats_array' => $stats_array]);
 
         return $this->display(__FILE__, 'stats.tpl');
     }
@@ -746,471 +746,471 @@ class Ps_Reminder extends Module
         if (Shop::getContext() === Shop::CONTEXT_SHOP) {
             $cron_info = $this->trans(
                 'Define the settings and paste the following URL in the crontab, or call it manually on a daily basis:',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 ).'<br /><b>' . $this->context->shop->getBaseURL() .
                 'modules/followup/cron.php?secure_key=' .
                 Configuration::get('PS_FOLLOWUP_SECURE_KEY') . '</b></p>';
         }
 
-        $fields_form_1 = array(
-            'form' => array(
-                'legend' => array(
+        $fields_form_1 = [
+            'form' => [
+                'legend' => [
                     'title' => $this->trans(
                         'Information',
-                        array(),
+                        [],
                         'Modules.Reminder.Admin'
                     ),
                     'icon' => 'icon-cogs',
-                ),
+                ],
                 'description' => $this->trans(
                     'Four kinds of e-mail alerts are available in order to stay in touch with your customers!',
-                        array(),
+                        [],
                         'Modules.Reminder.Admin'
                     ) . '<br />' . $cron_info,
-            )
-        );
+            ]
+        ];
 
-        $fields_form_2 = array(
-            'form' => array(
-                'legend' => array(
+        $fields_form_2 = [
+            'form' => [
+                'legend' => [
                     'title' => $this->trans(
                         'Cancelled carts',
-                        array(),
+                        [],
                         'Modules.Reminder.Admin'
                     ),
                     'icon' => 'icon-cogs',
-                ),
+                ],
                 'description' => $this->trans(
                     'For each cancelled cart (with no order), generate a discount and send it to the customer.',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 ),
-                'input' => array(
-                    array(
+                'input' => [
+                    [
                         'type' => 'switch',
                         'is_bool' => true, //retro-compat
                         'label' => $this->trans(
                             'Enable',
-                            array(),
+                            [],
                             'Admin.Actions'
                         ),
                         'name' => 'PS_FOLLOW_UP_ENABLE_1',
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => 1,
                                 'label' => $this->trans(
                                     'Enabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                            array(
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => 0,
                                 'label' => $this->trans(
                                     'Disabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                        ),
-                    ),
-                    array(
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount amount',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_AMOUNT_1',
                         'suffix' => '%',
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount validity',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_DAYS_1',
                         'suffix' => $this->trans(
                             'day(s)',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'desc',
                         'name' => '',
                         'text' => $this->trans(
                             'The next process will send %d e-mail(s).',
-                            array('%d' => $n1),
+                            ['%d' => $n1],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                ),
-                'submit' => array(
+                    ],
+                ],
+                'submit' => [
                     'title' => $this->trans(
                         'Save',
-                        array(),
+                        [],
                         'Admin.Actions'
                     ),
                     'class' => 'btn btn-default pull-right',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $fields_form_3 = array(
-            'form' => array(
-                'legend' => array(
+        $fields_form_3 = [
+            'form' => [
+                'legend' => [
                     'title' => $this->trans(
                         'Re-order',
-                        array(),
+                        [],
                         'Modules.Reminder.Admin'
                     ),
                     'icon' => 'icon-cogs',
-                ),
+                ],
                 'description' => $this->trans(
                     'For each validated order, generate a discount and send it to the customer.',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 ),
-                'input' => array(
-                    array(
+                'input' => [
+                    [
                         'type' => 'switch',
                         'is_bool' => true, //retro-compat
                         'label' => $this->trans(
                             'Enable',
-                            array(),
+                            [],
                             'Admin.Actions'
                         ),
                         'name' => 'PS_FOLLOW_UP_ENABLE_2',
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => 1,
                                 'label' => $this->trans(
                                     'Enabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                            array(
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => 0,
                                 'label' => $this->trans(
                                     'Disabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                        ),
-                    ),
-                    array(
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount amount',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_AMOUNT_2',
                         'suffix' => '%',
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount validity',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_DAYS_2',
                         'suffix' => $this->trans(
                             'day(s)',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'desc',
                         'name' => '',
                         'text' => $this->trans(
                             'Next process will send: %d e-mail(s)',
-                            array('%d' => $n2),
+                            ['%d' => $n2],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                ),
-                'submit' => array(
+                    ],
+                ],
+                'submit' => [
                     'title' => $this->trans(
                         'Save',
-                        array(),
+                        [],
                         'Admin.Actions'
                     ),
                     'class' => 'btn btn-default pull-right',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $fields_form_4 = array(
-            'form' => array(
-                'legend' => array(
+        $fields_form_4 = [
+            'form' => [
+                'legend' => [
                     'title' => $this->trans(
                         'Best customers',
-                        array(),
+                        [],
                         'Modules.Reminder.Admin'
                     ),
                     'icon' => 'icon-cogs',
-                ),
+                ],
                 'description' => $this->trans(
                     'For each customer raising a threshold, generate a discount and send it to the customer.',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 ),
-                'input' => array(
-                    array(
+                'input' => [
+                    [
                         'type' => 'switch',
                         'is_bool' => true, //retro-compat
                         'label' => $this->trans(
                             'Enable',
-                            array(),
+                            [],
                             'Admin.Actions'
                         ),
                         'name' => 'PS_FOLLOW_UP_ENABLE_3',
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => 1,
                                 'label' => $this->trans(
                                     'Enabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                            array(
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => 0,
                                 'label' => $this->trans(
                                     'Disabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                        ),
-                    ),
-                    array(
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount amount',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_AMOUNT_3',
                         'suffix' => '%',
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Threshold',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_THRESHOLD_3',
                         'suffix' => $currency->sign,
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount validity',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_DAYS_3',
                         'suffix' => $this->trans(
                             'day(s)',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'desc',
                         'name' => '',
                         'text' => $this->trans(
                             'Next process will send: %d e-mail(s)',
-                            array('%d' => $n3),
+                            ['%d' => $n3],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                ),
-                'submit' => array(
+                    ],
+                ],
+                'submit' => [
                     'title' => $this->trans(
                         'Save',
-                        array(),
+                        [],
                         'Admin.Actions'
                     ),
                     'class' => 'btn btn-default pull-right',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $fields_form_5 = array(
-            'form' => array(
-                'legend' => array(
+        $fields_form_5 = [
+            'form' => [
+                'legend' => [
                     'title' => $this->trans(
                         'Bad customers',
-                        array(),
+                        [],
                         'Modules.Reminder.Admin'
                     ),
                     'icon' => 'icon-cogs',
-                ),
+                ],
                 'description' => $this->trans(
                     'For each customer who has already placed at least one order and with no orders since a given duration, generate a discount and send it to the customer.',
-                    array(),
+                    [],
                     'Modules.Reminder.Admin'
                 ),
-                'input' => array(
-                    array(
+                'input' => [
+                    [
                         'type' => 'switch',
                         'is_bool' => true, //retro-compat
                         'label' => $this->trans(
                             'Enable',
-                            array(),
+                            [],
                             'Admin.Actions'
                         ),
                         'name' => 'PS_FOLLOW_UP_ENABLE_4',
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => 1,
                                 'label' => $this->trans(
                                     'Enabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                            array(
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => 0,
                                 'label' => $this->trans(
                                     'Disabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                        ),
-                    ),
-                    array(
+                            ],
+                        ],
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount amount',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_AMOUNT_4',
                         'suffix' => '%',
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Since x days',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_DAYS_THRESHOLD_4',
                         'suffix' => $this->trans(
                             'day(s)',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'text',
                         'label' => $this->trans(
                             'Discount validity',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_DAYS_4',
                         'suffix' => $this->trans(
                             'day(s)',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                    array(
+                    ],
+                    [
                         'type' => 'desc',
                         'name' => '',
                         'text' => $this->trans(
                             'Next process will send: %d e-mail(s)',
-                            array('%d' => $n4),
+                            ['%d' => $n4],
                             'Modules.Reminder.Admin'
                         ),
-                    ),
-                ),
-                'submit' => array(
+                    ],
+                ],
+                'submit' => [
                     'title' => $this->trans(
                         'Save',
-                        array(),
+                        [],
                         'Admin.Actions'
                     ),
                     'class' => 'btn btn-default pull-right',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $fields_form_6 = array(
-            'form' => array(
-                'legend' => array(
+        $fields_form_6 = [
+            'form' => [
+                'legend' => [
                     'title' => $this->trans(
                         'General',
-                        array(),
+                        [],
                         'Modules.Reminder.Admin'
                     ),
                     'icon' => 'icon-cogs',
-                ),
-                'input' => array(
-                    array(
+                ],
+                'input' => [
+                    [
                         'type' => 'switch',
                         'is_bool' => true, //retro-compat
                         'label' => $this->trans(
                             'Delete outdated discounts during each launch to clean database',
-                            array(),
+                            [],
                             'Modules.Reminder.Admin'
                         ),
                         'name' => 'PS_FOLLOW_UP_CLEAN_DB',
-                        'values' => array(
-                            array(
+                        'values' => [
+                            [
                                 'id' => 'active_on',
                                 'value' => 1,
                                 'label' => $this->trans(
                                     'Enabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                            array(
+                            ],
+                            [
                                 'id' => 'active_off',
                                 'value' => 0,
                                 'label' => $this->trans(
                                     'Disabled',
-                                    array(),
+                                    [],
                                     'Admin.Global'
                                 ),
-                            ),
-                        ),
-                    ),
-                ),
-                'submit' => array(
+                            ],
+                        ],
+                    ],
+                ],
+                'submit' => [
                     'title' => $this->trans(
                         'Save',
-                        array(),
+                        [],
                         'Admin.Actions'
                     ),
                     'class' => 'btn btn-default pull-right',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $helper = new HelperForm();
         $helper->show_toolbar = false;
@@ -1232,25 +1232,25 @@ class Ps_Reminder extends Module
             '&tab_module=' . $this->tab .
             '&module_name=' . $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
-        $helper->tpl_vars = array(
+        $helper->tpl_vars = [
             'fields_value' => $this->getConfigFieldsValues(),
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id
-        );
+        ];
 
-        return $helper->generateForm(array(
+        return $helper->generateForm([
             $fields_form_1,
             $fields_form_2,
             $fields_form_3,
             $fields_form_4,
             $fields_form_5,
             $fields_form_6
-        ));
+        ]);
     }
 
     public function getConfigFieldsValues()
     {
-        return array(
+        return [
             'PS_FOLLOW_UP_ENABLE_1' =>
                 Tools::getValue(
                     'PS_FOLLOW_UP_ENABLE_1',
@@ -1312,6 +1312,6 @@ class Ps_Reminder extends Module
                 'PS_FOLLOW_UP_CLEAN_DB',
                 Configuration::get('PS_FOLLOW_UP_CLEAN_DB')
             ),
-        );
+        ];
     }
 }
