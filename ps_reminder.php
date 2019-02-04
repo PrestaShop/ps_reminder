@@ -170,7 +170,7 @@ class Ps_Reminder extends Module
         Db::getInstance()->insert('log_email', $values);
     }
 
-    /* Each cart which wasn't transformed into an order */
+    // Each cart which wasn't transformed into an order
     private function cancelledCart($count = false)
     {
         $email_logs = $this->getLogsEmail(1);
@@ -301,7 +301,7 @@ class Ps_Reminder extends Module
         return $id_list[$email_type];
     }
 
-    /* For all validated orders, a discount if re-ordering before x days */
+    // For all validated orders, a discount if re-ordering before x days
     private function reOrder($count = false)
     {
         $email_logs = $this->getLogsEmail(2);
@@ -389,7 +389,7 @@ class Ps_Reminder extends Module
         }
     }
 
-    /* For all customers with more than x euros in 90 days */
+    // For all customers with more than x euros in 90 days
     private function bestCustomer($count = false)
     {
         $email_logs = $this->getLogsEmail(3);
@@ -481,7 +481,7 @@ class Ps_Reminder extends Module
         }
     }
 
-    /* For all customers with no orders since more than x days */
+    // For all customers with no orders since more than x days
 
     /**
      * badCustomer send mails to all customers with no orders since more than x days,
@@ -646,7 +646,7 @@ class Ps_Reminder extends Module
             $this->badCustomer();
         }
 
-        /* Clean-up database by deleting all outdated discounts */
+        // Clean-up database by deleting all outdated discounts
         if (1 == $conf['PS_FOLLOW_UP_CLEAN_DB']) {
             $outdated_discounts = Db::getInstance()->executeS(
                 'SELECT id_cart_rule
