@@ -233,7 +233,7 @@ class Ps_Reminder extends Module
                 );
                 Mail::Send(
                     (int)$email['id_lang'],
-                    'followup_1',
+                    'ps_reminder_1',
                     Mail::l(
                         'Your cart and your discount',
                         (int)$email['id_lang']
@@ -365,7 +365,7 @@ class Ps_Reminder extends Module
                 );
                 Mail::Send(
                     (int)$email['id_lang'],
-                    'followup_2',
+                    'ps_reminder_2',
                     Mail::l(
                         'Thanks for your order',
                         (int)$email['id_lang']
@@ -457,7 +457,7 @@ class Ps_Reminder extends Module
                 );
                 Mail::Send(
                     (int)$email['id_lang'],
-                    'followup_3',
+                    'ps_reminder_3',
                     Mail::l(
                         'You are one of our best customers',
                         (int)$email['id_lang']
@@ -566,7 +566,7 @@ class Ps_Reminder extends Module
                 );
                 Mail::Send(
                     (int)$email['id_lang'],
-                    'followup_4',
+                    'ps_reminder_4',
                     Mail::l(
                         'We miss you',
                         (int)$email['id_lang']
