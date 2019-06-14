@@ -30,6 +30,11 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_Reminder extends Module
 {
+    /**
+     * @var string Name of the module running on PS 1.6.x. Used for data migration.
+     */
+    const PS_16_EQUIVALENT_MODULE = 'followup';
+
     private $conf_keys = array();
 
     public function __construct()
@@ -85,22 +90,26 @@ class Ps_Reminder extends Module
 
     public function install()
     {
-        Db::getInstance()->execute('
-		CREATE TABLE '._DB_PREFIX_.'log_email (
-		`id_log_email` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-		`id_email_type` INT UNSIGNED NOT NULL ,
-		`id_cart_rule` INT UNSIGNED NOT NULL ,
-		`id_customer` INT UNSIGNED NULL ,
-		`id_cart` INT UNSIGNED NULL ,
-		`date_add` DATETIME NOT NULL,
-		 INDEX `date_add`(`date_add`),
-		 INDEX `id_cart`(`id_cart`)
-		) ENGINE='._MYSQL_ENGINE_);
+        if (!$this->uninstallPrestaShop16Module()) {
+            // 1.6 module was not installed, thus no data could be migrated.
+            // Initializing database structure & conf data
+            Db::getInstance()->execute('
+                CREATE TABLE IF NOT EXISTS '._DB_PREFIX_.'log_email (
+                `id_log_email` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+                `id_email_type` INT UNSIGNED NOT NULL ,
+                `id_cart_rule` INT UNSIGNED NOT NULL ,
+                `id_customer` INT UNSIGNED NULL ,
+                `id_cart` INT UNSIGNED NULL ,
+                `date_add` DATETIME NOT NULL,
+                INDEX `date_add`(`date_add`),
+                INDEX `id_cart`(`id_cart`)
+                ) ENGINE='._MYSQL_ENGINE_
+            );
 
-        foreach ($this->conf_keys as $key) {
-            Configuration::updateValue($key, 0);
+            foreach ($this->conf_keys as $key) {
+                Configuration::updateValue($key, 0);
+            }
         }
-
 
         return parent::install();
     }
@@ -115,6 +124,27 @@ class Ps_Reminder extends Module
         Db::getInstance()->execute('DROP TABLE '._DB_PREFIX_.'log_email');
 
         return parent::uninstall();
+    }
+
+    /**
+     * Migrate data from 1.6 equivalent module (if applicable), then uninstall
+     */
+    public function uninstallPrestaShop16Module()
+    {
+        if (!Module::isInstalled(self::PS_16_EQUIVALENT_MODULE)) {
+            return false;
+        }
+        $oldModule = Module::getInstanceByName(self::PS_16_EQUIVALENT_MODULE);
+        if ($oldModule) {
+            // This closure calls the parent class to prevent data to be erased
+            // It allows the new module to be configured without migration
+            $parentUninstallClosure = function() {
+                return parent::uninstall();
+            };
+            $parentUninstallClosure = $parentUninstallClosure->bindTo($oldModule, get_class($oldModule));
+            $parentUninstallClosure();
+        }
+        return true;
     }
 
     public function getContent()
