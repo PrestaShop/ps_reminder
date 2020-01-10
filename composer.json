@@ -2,7 +2,7 @@
   "name": "prestashop/ps_reminder",
   "description": "PrestaShop - Reminder",
   "homepage": "https://github.com/PrestaShop/ps_reminder",
-  "license": "AFL - Academic Free License (AFL 3.0)",
+  "license": "AFL-3.0",
   "authors": [
     {
       "name": "PrestaShop SA",
