@@ -744,13 +744,14 @@ class Ps_Reminder extends Module
 
         $cron_info = '';
         if (Shop::getContext() === Shop::CONTEXT_SHOP) {
+            $cron_url = $this->context->shop->getBaseURL(true, false) . _MODULE_DIR_ .
+                $this->name . '/cron.php?secure_key=' . Configuration::get('PS_FOLLOWUP_SECURE_KEY');
             $cron_info = $this->trans(
                 'Define the settings and paste the following URL in the crontab, or call it manually on a daily basis:',
                     array(),
                     'Modules.Reminder.Admin'
-                ).'<br /><b>' . $this->context->shop->getBaseURL() .
-                'modules/ps_reminder/cron.php?secure_key=' .
-                Configuration::get('PS_FOLLOWUP_SECURE_KEY') . '</b></p>';
+                ).'<br /><b>' . $cron_url . '</b>' .
+                ' - <a href="' . $cron_url . '" target="_blank">Open Now</span></a></p>';
         }
 
         $fields_form_1 = array(
