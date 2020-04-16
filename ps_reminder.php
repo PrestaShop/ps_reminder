@@ -787,7 +787,7 @@ class Ps_Reminder extends Module
                     'icon' => 'icon-cogs',
                 ),
                 'description' => $this->trans(
-                    'For each cancelled cart (with no order), generate a discount and send it to the customer.  Use 0% to disable discount and just send a reminder email.',
+                    'For each canceled cart (with no order), generate a discount and send it to the customer. Set it to 0% to disable the discount and just send a reminder email.',
                     array(),
                     'Modules.Reminder.Admin'
                 ),
