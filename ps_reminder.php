@@ -749,7 +749,7 @@ class Ps_Reminder extends Module
                     array(),
                     'Modules.Reminder.Admin'
                 ).'<br /><b>' . $this->context->shop->getBaseURL() .
-                'modules/followup/cron.php?secure_key=' .
+                'modules/ps_reminder/cron.php?secure_key=' .
                 Configuration::get('PS_FOLLOWUP_SECURE_KEY') . '</b></p>';
         }
 
