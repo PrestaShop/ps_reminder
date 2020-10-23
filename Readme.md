@@ -2,7 +2,7 @@
 
 ## About
 
-Follow-up with your customers by sending abandonment cart emails and other reminders.
+Offer your customers a quick follow-up with daily customized emails to send.
 
 ## Multistore compatibility
 
